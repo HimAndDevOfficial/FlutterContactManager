@@ -70,11 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     {
 
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context)=>DasboardScreen(_emailController.text.toString())));
+                          MaterialPageRoute(builder: (context)=>Dasboard()));
 
                     }else {
-                    print("inside else");
-                    Toast.show("Toast plugin app", duration: Toast.lengthShort, gravity:  Toast.bottom);
+                    final snackBar = SnackBar(content: Text("Please Enter All Fields"));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                 },
                 style: ElevatedButton.styleFrom(
