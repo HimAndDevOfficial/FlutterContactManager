@@ -1,13 +1,9 @@
 
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-import 'addcontact.dart';
-import 'displaycontact.dart';
 
 class DatabaseHelper {
   static final _databaseName = "myDatabase.db";
@@ -51,5 +47,15 @@ class DatabaseHelper {
        $colmunPhone TEXT NOT NULL
     )
     ''');
+  }
+
+  Future<int> insert(Map<String,dynamic> row) async {
+    Database db = await instance.database;
+    return await db.insert(table, row);
+  }
+
+  Future<List<Map<String,dynamic>>> queryAll() async {
+    Database db = await instance.database;
+    return await db.query(table);
   }
 }

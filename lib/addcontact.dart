@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-
 import 'database_helper.dart';
+
 
 class AddContactScreen extends StatelessWidget {
 
@@ -10,12 +10,27 @@ class AddContactScreen extends StatelessWidget {
   final _phoneController = TextEditingController();
 
 
-  Future<void> _addcontact() async {
-  await DatabaseHelper.instance;
-}
-
   @override
   Widget build(BuildContext context) {
+
+    Future<void> _addcontact() async {
+      final name = _nameController.text;
+      final email = _emailController.text;
+      final phone = _phoneController.text;
+
+
+      //Insert the new contact into the database
+      await DatabaseHelper.instance.insert({
+        'name' : name,
+        'email': email,
+        'phone':phone,
+      });
+
+      //display success message to user
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Contact Added"),duration: Duration(seconds: 2),),);
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         title :Text("Add Contacts")
