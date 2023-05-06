@@ -1,26 +1,20 @@
-import 'package:contactmanagerflutter/signup.dart';
+import 'package:contactmanagerflutter/loginscreen.dart';
 import 'package:contactmanagerflutter/utility.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'dashboardscreen.dart';
 
-class LogInScreen extends StatefulWidget {
-  const LogInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  // save login status
-  Future<void> saveLoginStatus(bool isLoggedIn) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("isLoggedIn", isLoggedIn);
-  }
+  final TextEditingController _confirmPasswordController =
+  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +48,25 @@ class _LogInScreenState extends State<LogInScreen> {
               height: 20,
             ),
             TextField(
-              controller: _passwordController,
+              controller: _confirmPasswordController,
               obscureText: true,
               decoration: InputDecoration(
                   hintText: "Enter your password",
+                  prefixIcon: const Icon(Icons.email),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide.none)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                  hintText: "Confirm your password",
                   prefixIcon: const Icon(Icons.lock),
                   filled: true,
                   fillColor: Colors.white,
@@ -70,22 +79,15 @@ class _LogInScreenState extends State<LogInScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                if (_emailController.text.toString().isNotEmpty &&
-                    _passwordController.text.toString().isNotEmpty) {
-
-                  saveLoginStatus(true);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Dasboard()));
-                } else {
-                  debugPrint("inside else");
-                  showToast(context, text: "Fill all the details");
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  LogInScreen()),
+                );
+                showToast(context, text: "SignUp successfully");
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
               child: const Text(
-                "Login",
+                "SignUp",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -96,11 +98,11 @@ class _LogInScreenState extends State<LogInScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                  MaterialPageRoute(builder: (context) =>  LogInScreen()),
                 );
               },
               child: const Text(
-                "New User? Click here to Sign Up",
+                "Already Registered User? Click here",
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
             )

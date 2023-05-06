@@ -1,6 +1,7 @@
 
 import 'package:contactmanagerflutter/database_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DisplayContactScreen extends StatefulWidget {
 
@@ -23,6 +24,13 @@ class _DisplayContactScreenState extends State<DisplayContactScreen> {
     _contacts = DatabaseHelper.instance.queryAll();
   }
 
+  Future<int> _deleteContact(int id) async {
+    Database db = await DatabaseHelper.instance.database;
+
+    return await db.delete('Contacts',where: 'id= ?', whereArgs: [id]);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +51,23 @@ class _DisplayContactScreenState extends State<DisplayContactScreen> {
                 itemBuilder:(BuildContext context, int index) {
               Map<String,dynamic> contact = contacts[index];
               return ListTile(
-                title: Text(contact['phone']),
+                title: Text("${contact['id']}). ${contact['name']} "),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Phone: ${contact['phone']}"),
+                    Text("Email: ${contact['email']}")
+                  ],
+                ),
+                trailing: IconButton(
+                  icon:Icon(Icons.delete),
+                  onPressed: () async {
+                   await _deleteContact(contact['id']);
+                   setState(() {
+                     _loadContacts();
+                   });
+                  },
+                ),
               );
 
             });

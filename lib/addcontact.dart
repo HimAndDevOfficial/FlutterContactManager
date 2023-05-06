@@ -66,7 +66,12 @@ class AddContactScreen extends StatelessWidget {
             SizedBox(height:20),
             ElevatedButton(
                 onPressed: () {
+
                   _addcontact();
+
+                  _phoneController.clear();
+                  _emailController.clear();
+                  _nameController.clear();
             },
                 child: Text("Add Contact")
             ),

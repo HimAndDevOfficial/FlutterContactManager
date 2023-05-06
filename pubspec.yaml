@@ -38,6 +38,7 @@ dependencies:
   toast: ^0.2.9
   path_provider: ^2.0.14
   sqflite: ^2.0.0+3
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:
