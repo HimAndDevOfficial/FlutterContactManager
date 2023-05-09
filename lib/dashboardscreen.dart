@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import 'MyDrawer.dart';
 import 'addcontact.dart';
 import 'displaycontact.dart';
 
@@ -43,6 +44,7 @@ class _DasboardState extends State<Dasboard> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
+    drawer: MyDrawer(),
     );
   }
 }

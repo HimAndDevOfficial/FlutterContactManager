@@ -74,10 +74,11 @@ class _LogInScreenState extends State<LogInScreen> {
                     _passwordController.text.toString().isNotEmpty) {
 
                   saveLoginStatus(true);
-                  Navigator.push(
-                      context,
+                  Navigator.pushReplacement(
+                    context,
                       MaterialPageRoute(
-                          builder: (context) => Dasboard()));
+                          builder: (context) => Dasboard())
+                  );
                 } else {
                   debugPrint("inside else");
                   showToast(context, text: "Fill all the details");

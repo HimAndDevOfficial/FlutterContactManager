@@ -1,7 +1,10 @@
 
 import 'package:contactmanagerflutter/database_helper.dart';
+import 'package:contactmanagerflutter/updatecontact.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'contact.dart';
 
 class DisplayContactScreen extends StatefulWidget {
 
@@ -50,24 +53,32 @@ class _DisplayContactScreenState extends State<DisplayContactScreen> {
               itemCount: contacts.length,
                 itemBuilder:(BuildContext context, int index) {
               Map<String,dynamic> contact = contacts[index];
-              return ListTile(
-                title: Text("${contact['id']}). ${contact['name']} "),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Phone: ${contact['phone']}"),
-                    Text("Email: ${contact['email']}")
-                  ],
+              return GestureDetector(
+                child: ListTile(
+                  title: Text("${contact['id']}). ${contact['name']} "),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Phone: ${contact['phone']}"),
+                      Text("Email: ${contact['email']}")
+                    ],
+                  ),
+                  trailing: IconButton(
+                    icon:Icon(Icons.delete),
+                    onPressed: () async {
+                      await _deleteContact(contact['id']);
+                      setState(() {
+                        _loadContacts();
+                      });
+                    },
+                  ),
                 ),
-                trailing: IconButton(
-                  icon:Icon(Icons.delete),
-                  onPressed: () async {
-                   await _deleteContact(contact['id']);
-                   setState(() {
-                     _loadContacts();
-                   });
-                  },
-                ),
+                onTap: () {
+                  Contact contactModel = Contact(id: contact['id'].toString(),name:contact['name'],email:contact['email'],phonenumber:contact['phone']);
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context)=> UpdateContactScreen()
+                  ));
+                },
               );
 
             });
