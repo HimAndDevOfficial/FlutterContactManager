@@ -76,7 +76,7 @@ class _DisplayContactScreenState extends State<DisplayContactScreen> {
                 onTap: () {
                   Contact contactModel = Contact(id: contact['id'].toString(),name:contact['name'],email:contact['email'],phonenumber:contact['phone']);
                   Navigator.push(context,
-                  MaterialPageRoute(builder: (context)=> UpdateContactScreen()
+                  MaterialPageRoute(builder: (context)=> UpdateContactScreen(contact: contactModel,)
                   ));
                 },
               );

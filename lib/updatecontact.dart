@@ -1,39 +1,52 @@
 
 import 'package:flutter/material.dart';
+import 'contact.dart';
 import 'database_helper.dart';
 
 
-class UpdateContactScreen extends StatelessWidget {
+class UpdateContactScreen extends StatefulWidget {
 
+  final Contact contact;
+
+  UpdateContactScreen({required this.contact});
+
+  @override
+  _UpdateContactScreenState createState() => _UpdateContactScreenState();
+
+
+}
+
+class _UpdateContactScreenState extends State<UpdateContactScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _nameController.text = widget.contact.name;
+    _emailController.text = widget.contact.email;
+    _phoneController.text= widget.contact.phonenumber;
+  }
+
+  Future<void> _updatecontact(Contact contact) async {
+    final db = await DatabaseHelper.instance.database;
+
+    await db.update('Contacts',contact.toMap(),where: 'id= ?', whereArgs: [contact.id]);
+
+    //display success message to user
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Contact Updated"),duration: Duration(seconds: 2),),);
+  }
+
 
 
   @override
   Widget build(BuildContext context) {
 
-    Future<void> _addcontact() async {
-      final name = _nameController.text;
-      final email = _emailController.text;
-      final phone = _phoneController.text;
-
-
-      //Insert the new contact into the database
-      await DatabaseHelper.instance.insert({
-        'name' : name,
-        'email': email,
-        'phone':phone,
-      });
-
-      //display success message to user
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Contact Added"),duration: Duration(seconds: 2),),);
-    }
-
-
     return Scaffold(
       appBar: AppBar(
-        title :Text("Add Contacts")
+          title :Text("Update Contacts")
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -66,20 +79,18 @@ class UpdateContactScreen extends StatelessWidget {
             SizedBox(height:20),
             ElevatedButton(
                 onPressed: () {
+                  Contact contactModel = Contact(id: widget.contact.id,name:_nameController.text.toString(),email:_emailController.text.toString(),phonenumber:_phoneController.text.toString());
+                  _updatecontact(contactModel);
 
-                  _addcontact();
-
-                  _phoneController.clear();
-                  _emailController.clear();
-                  _nameController.clear();
-            },
-                child: Text("Add Contact")
+                },
+                child: Text("Update Contact")
             ),
           ],
         ),
       ),
     );
   }
+
 }
 
 
