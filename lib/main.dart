@@ -53,8 +53,13 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
   Future<void> saveLoginStatus(bool isLoggedIn) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("isLoggedIn", isLoggedIn);
+   // prefs.setString("name", _controller.name);
   }
 
+  // Future<String>checkEmailexist() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('password') ?? "default";
+  // }
   //fetch login status
   Future<bool> getLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

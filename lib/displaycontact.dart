@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:contactmanagerflutter/database_helper.dart';
 import 'package:contactmanagerflutter/updatecontact.dart';
 import 'package:flutter/material.dart';
@@ -73,11 +75,18 @@ class _DisplayContactScreenState extends State<DisplayContactScreen> {
                     },
                   ),
                 ),
-                onTap: () {
+                onTap: () async{
                   Contact contactModel = Contact(id: contact['id'].toString(),name:contact['name'],email:contact['email'],phonenumber:contact['phone']);
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context)=> UpdateContactScreen(contact: contactModel,)
-                  ));
+                bool check =  await Navigator.push(context,
+                      MaterialPageRoute(builder: (context)=> UpdateContactScreen(contact: contactModel,)
+                      ));
+
+                if(check!=null)
+                  {
+                    setState(() {
+                      _loadContacts();
+                    });
+                  }
                 },
               );
 

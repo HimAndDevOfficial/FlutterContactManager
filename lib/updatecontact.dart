@@ -35,6 +35,7 @@ class _UpdateContactScreenState extends State<UpdateContactScreen> {
 
     await db.update('Contacts',contact.toMap(),where: 'id= ?', whereArgs: [contact.id]);
 
+    Navigator.pop(context,true);
     //display success message to user
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Contact Updated"),duration: Duration(seconds: 2),),);
   }

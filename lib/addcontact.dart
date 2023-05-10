@@ -1,14 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'MyDrawer.dart';
 import 'database_helper.dart';
 
 
+final GlobalKey<ScaffoldState> _globalKey= GlobalKey<ScaffoldState>();
 class AddContactScreen extends StatelessWidget {
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +33,19 @@ class AddContactScreen extends StatelessWidget {
 
 
     return Scaffold(
+      key:_globalKey,
       appBar: AppBar(
-        title :Text("Add Contacts")
+        title :Text("Add Contacts"),
+        leading:IconButton(
+          icon:Icon(Icons.menu),
+          onPressed: (){
+            _globalKey.currentState?.openDrawer();
+          },
+        ),
+
+
       ),
+      drawer: MyDrawer(),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

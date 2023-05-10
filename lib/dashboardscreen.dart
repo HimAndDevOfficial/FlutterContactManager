@@ -44,7 +44,7 @@ class _DasboardState extends State<Dasboard> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-    drawer: MyDrawer(),
+
     );
   }
 }
